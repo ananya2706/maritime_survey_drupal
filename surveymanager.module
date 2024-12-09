@@ -1,0 +1,204 @@
+<?php
+
+use Drupal\Core\Routing\RouteMatchInterface;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Drupal\user\Entity\User;
+use Drupal\user\Entity\Role;
+use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\Core\Field\BaseFieldDefinition;
+use Drupal\field\FieldStorageConfigInterface;
+use Drupal\field\Entity\FieldStorageConfig;
+use Drupal\Core\Database\Connection;
+use Drupal\Core\Database\Schema\Schema;
+
+/**
+ * Implements hook_theme().
+ */
+function surveymanager_theme($existing, $type, $theme, $path) {
+
+    return ['surveymanager_jobs_table' => [
+      'variables' => [
+        'header' => NULL,
+        'rows' => NULL
+        ],
+      'template' => 'surveymanager-jobs-table',
+        ],
+        'dashboard_page' => [
+            'variables' => [
+              'buttons' => [],
+            ],
+          'template' => 'dashboard-page',
+          ],
+    ]; 
+}
+
+function sm_user_schema()
+{
+
+    return $schema['sm_user_profile'] = array(
+        'description' => 'Stores user profile extention Fields ',
+        'fields' => array(
+            'id' => array(
+                'description' => 'The primary identifier for the record.',
+                'type' => 'serial',
+                'unsigned' => TRUE,
+                'not null' => TRUE,
+            ),
+            'uname' => array(
+                'description' => 'User name',
+                'type' => 'varchar',
+                'length' => 64,
+                'not null' => FALSE,
+                'default' => ''
+            ),
+           'name' => array(
+                'description' => 'Name of the user',
+                'type' => 'varchar',
+                'length' => 64,
+                'not null' => FALSE,
+                'default' => ''
+            ),
+            
+            ),
+            'primary key' => array('id'),
+            'indexes' => array(
+            'id' => array('id'),
+        ),
+    );
+
+}
+
+
+function create_user_profile_schema()
+{
+  
+  
+
+
+  $user_schema=sm_user_schema();
+  $connection = \Drupal::database();
+  $schema = $connection->schema();
+
+  // Check if the table already exists.
+  if (!$schema->tableExists('sm_user_profile')) 
+  {
+
+    $schema->createTable('sm_user_profile',$user_schema);
+  }
+
+
+
+}
+
+function insert_user_profile($uname, $name) {
+  
+  $connection = \Drupal::database();
+  $values = array(
+    'uname' => $uname,
+    'name' => $name,
+  );
+
+  $connection->insert('sm_user_profile')
+    ->fields($values)
+    ->execute();
+}
+
+
+
+function create_default_users()
+{
+  
+  
+  
+  // Check if the user exists before creating it.
+  if (!user_load_by_mail('floatsys@fisat.ac.in')) {
+    $user = User::create();
+    $user->setPassword('12345');
+    $user->enforceIsNew();
+    $user->setEmail("floatsys@fisat.ac.in");
+    $user->set("init", "floatsys@fisat.ac.in");
+    $user->set("langcode", "en");
+    $user->set("preferred_langcode", "en");
+    $user->set("preferred_admin_langcode", "en");
+    $user->set("timezone", date_default_timezone_get());
+    $user->setUsername("surveyadmin");
+    $user->addRole('survey_admin');
+    $user->enforceIsNew();
+    $user->activate();
+    $user->save();
+    insert_user_profile("surveyadmin","Survey admin");
+  }
+
+  // Check if the user exists before creating it.
+  if (!user_load_by_mail('floatsyssurvey@fisat.ac.in')) {
+    $user = User::create();
+    $user->setPassword('12345');
+    $user->enforceIsNew();
+    $user->setEmail("floatsyssurvey@fisat.ac.in");
+    $user->set("init", "floatsyssurvey@fisat.ac.in");
+    $user->set("langcode", "en");
+    $user->set("preferred_langcode", "en");
+    $user->set("preferred_admin_langcode", "en");
+    $user->set("timezone", date_default_timezone_get());
+    $user->setUsername("surveyor1");
+    $user->addRole('surveyor');
+    $user->enforceIsNew();
+    $user->activate();
+    $user->save();
+    insert_user_profile("surveyor1","Surveyor 1");
+  }
+
+  // Check if the user exists before creating it.
+  if (!user_load_by_mail('floatsysreview@fisat.ac.in')) {
+    $user = User::create();
+    $user->setPassword('12345');
+    $user->enforceIsNew();
+    $user->setEmail("floatsysreview@fisat.ac.in");
+    $user->set("init", "floatsysreview@fisat.ac.in");
+    $user->set("langcode", "en");
+    $user->set("preferred_langcode", "en");
+    $user->set("preferred_admin_langcode", "en");
+    $user->set("timezone", date_default_timezone_get());
+    $user->setUsername("reviewer1");
+    $user->addRole('reviewer');
+    $user->enforceIsNew();
+    $user->activate();
+    $user->save();
+    insert_user_profile("reviewer1","Reviewer 1");
+    
+  }
+}
+
+
+
+function surveymanager_install() {
+  // Check if the role exists before creating it.
+  if (!Role::load('survey_admin')) {
+    $role = Role::create([
+      'id' => 'survey_admin',
+      'label' => 'Survey Administrator',
+    ]);
+    $role->save();
+  }
+
+  // Check if the role exists before creating it.
+  if (!Role::load('surveyor')) {
+    $role = Role::create([
+      'id' => 'surveyor',
+      'label' => 'Surveyor',
+    ]);
+    $role->save();
+  }
+
+  // Check if the role exists before creating it.
+  if (!Role::load('reviewer')) {
+    $role = Role::create([
+      'id' => 'reviewer',
+      'label' => 'Reviewer',
+    ]);
+    $role->save();
+  }
+  create_user_profile_schema();
+  create_default_users();
+
+}

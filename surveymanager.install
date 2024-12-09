@@ -1,0 +1,349 @@
+<?php
+use Drupal\Core\Database\Connection;
+use Drupal\Core\Database\Schema\Schema;
+
+function surveymanager_schema(){
+    //Job details 
+    $schema['sm_jobs'] = array(
+        'description' => 'Stores job details',
+        'fields' => array(
+            'id' => array(
+                'description' => 'The primary identifier for the record.',
+                'type' => 'serial',
+                'unsigned' => TRUE,
+                'not null' => TRUE,
+            ),
+            'surveyor_uname' => array(
+                'description' => 'Surveyor user name',
+                'type' => 'varchar',
+                'length' => 64,
+                'not null' => FALSE,
+                'default' => ''
+            ),
+            'number' => array(
+                'description' => 'Job number.',
+                'type' => 'varchar',
+                'length' => 64,
+                'not null' => TRUE,
+                'default' => '',
+            ),
+            'vessel_id' => array(
+                'type' => 'int',
+                'not null' => TRUE,
+                'description' => 'id from the vessels',
+            ),
+            'status' => array(
+                'description' => 'Status',
+                'type' => 'varchar',
+                'length' => 64,
+                'not null' => TRUE,
+                'default' => '',
+            ),
+        ),
+        'primary key' => array('id'),
+        'indexes' => array(
+            'id' => array('id'),
+        ),
+    );
+    
+    // Requested surveys on a job
+
+    $schema['sm_job_surveys'] = array(
+        'description' => 'Stores surveys included in a job',
+        'fields' => array(
+            'id' => array(
+                'description' => 'The primary identifier for the record.',
+                'type' => 'serial',
+                'unsigned' => TRUE,
+                'not null' => TRUE,
+            ),
+            'type_id' => array(
+                'type' => 'int',
+                'not null' => TRUE,
+                'description' => 'id from the survey_types.',
+            ),
+            'job_id' => array(
+                'type' => 'int',
+                'not null' => TRUE,
+                'description' => 'id from the job',
+            ),
+            ),    
+            'primary key' => array('id'),
+            'indexes' => array(
+            'id' => array('id'),
+        ),
+    );
+
+    // Supporting document for a job
+    $schema['sm_job_support_documents'] = array(
+        'description' => 'Stores job support document details',
+        'fields' => array(
+            'id' => array(
+                'description' => 'The primary identifier for the record.',
+                'type' => 'serial',
+                'unsigned' => TRUE,
+                'not null' => TRUE,
+            ),
+            'type_id' => array(
+                'type' => 'int',
+                'not null' => TRUE,
+                'description' => 'id sm_support_document_types',
+            ),
+            'job_id' => array(
+                'type' => 'int',
+                'not null' => TRUE,
+                'description' => 'id from the job.',
+            ),
+            'url' => array(
+                'description' => 'Document  url from the upload location',
+                'type' => 'varchar',
+                'length' => 64,
+                'not null' => FALSE,
+                'default' => ''
+            ),),
+            'primary key' => array('id'),
+            'indexes' => array(
+            'id' => array('id'),
+             ),
+    );
+    
+    // Certificates to be produced from  a job
+    $schema['sm_job_certificates'] = array(
+        'description' => 'Stores job certificates details',
+        'fields' => array(
+            'id' => array(
+                'description' => 'The primary identifier for the record.',
+                'type' => 'serial',
+                'unsigned' => TRUE,
+                'not null' => TRUE,
+            ),
+            'job_id' => array(
+                'type' => 'int',
+                'not null' => TRUE,
+                'description' => 'id from the job',
+            ),
+            'certificate_id' => array(
+                'type' => 'int',
+                'not null' => TRUE,
+                'description' => 'id from certificates',
+            ),
+            'number' => array(
+                'type' => 'int',
+                'not null' => TRUE,
+                'description' => 'certificate number',
+            ),
+            'issued_on' => array(
+                'type' => 'varchar',
+                'length' => 255,
+                'description' => 'Issued date and time ',
+            ),
+           'expire_on' => array(
+                'type' => 'varchar',
+                'length' => 255,
+                'description' => 'expiry date and time',
+            ),
+            'url' => array(
+                'description' => 'Certificate  url from the upload location',
+                'type' => 'varchar',
+                'length' => 64,
+                'not null' => FALSE,
+                'default' => ''
+            ),),
+            'primary key' => array('id'),
+            'indexes' => array(
+            'id' => array('id'),
+            ),
+    );
+    
+    // recommendations from a job
+    $schema['sm_recommendations'] = array(
+        'description' => 'Stores basic certificate info such as type,code ',
+        'fields' => array(
+            'id' => array(
+                'description' => 'The primary identifier for the record.',
+                'type' => 'serial',
+                'unsigned' => TRUE,
+                'not null' => TRUE,
+            ),
+            'job_id' => array(
+                'type' => 'int',
+                'not null' => TRUE,
+                'description' => 'id from the job.',
+            ),
+            'recommendation' => array(
+                'description' => 'recommendation',
+                'type' => 'varchar',
+                'length' => 64,
+                'not null' => FALSE,
+                'default' => ''
+            ),
+
+            'imposed_on' => array(
+                'type' => 'varchar',
+                'length' => 255,
+                'description' => 'Imposed date and time ',
+            ),
+           'due_on' => array(
+                'type' => 'varchar',
+                'length' => 255,
+                'description' => 'Due date and time',
+            ),),
+             'primary key' => array('id'),
+            'indexes' => array(
+            'id' => array('id'),
+             ),
+    );
+
+
+    //Support document types        
+    $schema['sm_support_document_types'] = array(
+        'description' => 'Stores documents types that support a job',
+        'fields' => array(
+            'id' => array(
+                'description' => 'The primary identifier for the record.',
+                'type' => 'serial',
+                'unsigned' => TRUE,
+                'not null' => TRUE,
+            ),
+            'type_name' => array(
+                'description' => 'Document  name',
+                'type' => 'varchar',
+                'length' => 64,
+                'not null' => FALSE,
+                'default' => ''
+            ),),
+            'primary key' => array('id'),
+            'indexes' => array(
+            'id' => array('id'),
+            ),
+    );
+
+
+    // certificate types and its template
+    $schema['sm_certificates'] = array(
+        'description' => 'Stores basic certificate info such as type,code ',
+        'fields' => array(
+            'id' => array(
+                'description' => 'The primary identifier for the record.',
+                'type' => 'serial',
+                'unsigned' => TRUE,
+                'not null' => TRUE,
+            ),
+            'name' => array(
+                'description' => 'certificate name',
+                'type' => 'varchar',
+                'length' => 64,
+                'not null' => FALSE,
+                'default' => ''
+            ),
+            'code' => array(
+                'description' => 'certificate code',
+                'type' => 'varchar',
+                'length' => 64,
+                'not null' => FALSE,
+                'default' => ''
+            ),
+            'url' => array(
+                'description' => 'Certificate template url from the upload location',
+                'type' => 'varchar',
+                'length' => 64,
+                'not null' => FALSE,
+                'default' => ''
+            ),),
+            'primary key' => array('id'),
+            'indexes' => array(
+            'id' => array('id'),
+            ),
+    );        
+    
+
+    //vessel details
+    $schema['sm_vessels'] = array(
+        'description' => 'Stores vessels details',
+        'fields' => array(
+            'id' => array(
+                'description' => 'The primary identifier for the record.',
+                'type' => 'serial',
+                'unsigned' => TRUE,
+                'not null' => TRUE,
+            ),
+            'name' => array(
+                'description' => 'vessel name',
+                'type' => 'varchar',
+                'length' => 64,
+                'not null' => FALSE,
+                'default' => ''
+            ),
+            'imo' => array(
+                'description' => 'Vessel IMO Number:',
+                'type' => 'varchar',
+                'length' => 64,
+                'not null' => TRUE,
+                'default' => '',
+            ),),
+            'primary key' => array('id'),
+            'indexes' => array(
+            'id' => array('id'),
+        ),
+    );
+
+    //survey types and its code 
+    $schema['sm_survey_types'] = array(
+        'description' => 'Stores user approval types details',
+        'fields' => array(
+            'id' => array(
+                'description' => 'The primary identifier for the record.',
+                'type' => 'serial',
+                'unsigned' => TRUE,
+                'not null' => TRUE,
+            ),
+            'name' => array(
+                'description' => 'Type name',
+                'type' => 'varchar',
+                'length' => 64,
+                'not null' => FALSE,
+                'default' => ''
+            ),
+            'code' => array(
+                'description' => 'Code',
+                'type' => 'varchar',
+                'length' => 64,
+                'not null' => FALSE,
+                'default' => ''
+            ),),
+            'primary key' => array('id'),
+            'indexes' => array(
+            'id' => array('id'),
+        ),
+    );
+
+    // Surveys allowed for a user
+
+    $schema['sm_user_survey_types'] = array(
+        'description' => 'Stores user survey /audit types details',
+        'fields' => array(
+            'id' => array(
+                'description' => 'The primary identifier for the record.',
+                'type' => 'serial',
+                'unsigned' => TRUE,
+                'not null' => TRUE,
+            ),
+           'type_id' => array(
+                'type' => 'int',
+                'not null' => TRUE,
+                'description' => 'id from the survey_types.',
+            ),
+            'uname' => array(
+                'description' => 'User name',
+                'type' => 'varchar',
+                'length' => 64,
+                'not null' => FALSE,
+                'default' => ''
+            ),),
+            'primary key' => array('id'),
+            'indexes' => array(
+            'id' => array('id'),
+        ),
+    );
+    return $schema;
+}

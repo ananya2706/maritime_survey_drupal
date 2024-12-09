@@ -1,0 +1,17 @@
+main_library:
+  version: 1.x
+  js:
+    js/jquery-3.7.0.min.js: {}
+    js/jquery.dataTables.min.js: {}
+    js/dataTables.editor.min.js : {}
+    js/dataTables.buttons.min.js : {}
+    js/dataTables.select.min.js : {}
+    js/main.js: {}
+  css:
+    theme:
+      css/bootstrap.min.css: {}
+      css/jquery.dataTables.min.css: {}
+      css/buttons.dataTables.min.css: {}
+      css/select.dataTables.min.css: {}
+      css/editor.dataTables.min.css: {}
+      css/main.css: {}

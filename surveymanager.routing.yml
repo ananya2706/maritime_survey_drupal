@@ -1,0 +1,199 @@
+surveymanager.login_form:
+  path: '/surveymanager/login'
+  defaults:
+    _form: '\Drupal\surveymanager\Form\LoginForm'
+    _title: 'Login Form'
+  requirements:
+    _permission: 'access content'
+
+surveymanager.admin_dashboard:
+  path: '/surveymanager/admin/index'
+  defaults:
+    _controller: '\Drupal\surveymanager\Controller\AdminController::dashboard'
+    _title: 'Welcome to Admin Dashboard!'
+  requirements:
+    _permission: 'access content'
+
+surveymanager.admin_list_users:
+  path: '/surveymanager/admin/users/list'
+  defaults:
+    _controller: '\Drupal\surveymanager\Controller\AdminController::list_users'
+    _title: 'User List'
+  requirements:
+    _permission: 'access content'
+
+surveymanager.list_user_survey_types:
+  path: '/surveymanager/usersurveytypes/list'
+  defaults:
+    _controller: '\Drupal\surveymanager\Controller\AdminController::usersurvey_types_list'
+    _title: 'User List'
+  requirements:
+    _permission: 'access content'    
+
+surveymanager.list_recommendations:
+  path: '/surveymanager/recommendations/list'
+  defaults:
+    _controller: '\Drupal\surveymanager\Controller\AdminController::recommendations_list'
+    _title: 'Recommendations List'
+  requirements:
+    _permission: 'access content'
+
+surveymanager.list_job_surveys:
+  path: '/surveymanager/job/surveys/list'
+  defaults:
+    _controller: '\Drupal\surveymanager\Controller\AdminController::job_surveys_list'
+    _title: 'Job Surveys List'
+  requirements:
+    _permission: 'access content'    
+
+surveymanager.list_job_support_document_types:
+  path: '/surveymanager/jobsupport/documents/list'
+  defaults:
+    _controller: '\Drupal\surveymanager\Controller\AdminController::job_support_document_types_list'
+    _title: 'Job Support Documents List'
+  requirements:
+    _permission: 'access content'   
+
+surveymanager.list_job_certificates:
+  path: '/surveymanager/job/certificates/list'
+  defaults:
+    _controller: '\Drupal\surveymanager\Controller\AdminController::job_certificates_list'
+    _title: 'Job Certificates'
+  requirements:
+    _permission: 'access content'
+
+surveymanager.list_document_type:
+  path: '/surveymanager/documenttype/list'
+  defaults:
+    _controller: '\Drupal\surveymanager\Controller\AdminController::document_type_list'
+    _title: 'Document Types'
+  requirements:
+    _permission: 'access content'
+
+surveymanager.list_certificate:
+  path: '/surveymanager/certificatelist'
+  defaults:
+    _controller: '\Drupal\surveymanager\Controller\AdminController::certificate_list'
+    _title: 'Certificate List'
+  requirements:
+    _permission: 'access content'
+
+surveymanager.list_vessels:
+  path: '/surveymanager/vessels/list'
+  defaults:
+    _controller: '\Drupal\surveymanager\Controller\AdminController::vessel_list'
+    _title: 'Vessel List'
+  requirements:
+    _permission: 'access content'
+
+surveymanger.list_jobs:
+  path: '/surveymanager/jobs/list'
+  defaults:
+    _controller: '\Drupal\surveymanager\Controller\AdminController::job_list'
+    _title: 'Job List'
+  requirements:
+    _permission: 'access content'
+
+surveymanager.list_survey_types:
+  path: '/surveymanager/surveytypes/list'
+  defaults:
+    _controller: '\Drupal\surveymanager\Controller\AdminController::survey_types_table'
+    _title: 'Survey Types'
+  requirements:
+    _permission: 'access content'
+
+surveymanager.surveyor_dashboard:
+  path: '/surveymanager/surveyor/index'
+  defaults:
+    _controller: '\Drupal\surveymanager\Controller\SurveyController::dashboard'
+    _title: 'Surveyor Dashboard'
+  requirements:
+    _permission: 'access content'
+
+surveymanager.certificate_form:
+  path: '/surveymanager/certificate'
+  defaults:
+    _form: '\Drupal\surveymanager\Form\CertificateForm'
+    _title: 'Add Certificate'
+  requirements:
+    _permission: 'access content'
+
+surveymanager.document_type_form:
+  path: '/surveymanager/documenttype'
+  defaults:
+    _form: '\Drupal\surveymanager\Form\DocumentTypeForm'
+    _title: 'Add Document Type'
+  requirements:
+    _permission: 'access content'
+
+survey_form.form:
+  path: '/surveymanager/survey'
+  defaults:
+    _form: '\Drupal\surveymanager\Form\SurveyForm'
+    _title: 'Survey Form'
+  requirements:
+    _permission: 'access content'
+
+surveymanager.survey_type_form:
+  path: '/surveymanager/surveytype'
+  defaults:
+    _form: '\Drupal\surveymanager\Form\SurveyTypeForm'
+    _title: 'Add Survey Type'
+  requirements:
+    _permission: 'access content'
+
+surveymanager.recommendations_form:
+  path: '/surveymanager/recommendations'
+  defaults:
+    _form: '\Drupal\surveymanager\Form\RecommendationsForm'
+    _title: 'Add Recommendations'
+  requirements:
+    _permission: 'access content'
+
+surveymanager.job_certificate_form:
+  path: '/surveymanager/jobcertificates'
+  defaults:
+    _form: '\Drupal\surveymanager\Form\JobCertificatesForm'
+    _title: 'Add Job Certificates'
+  requirements:
+    _permission: 'access content'
+
+surveymanager.jobs_form:
+  path: '/surveymanager/jobsform'
+  defaults:
+    _form: '\Drupal\surveymanager\Form\JobsForm'
+    _title: 'Add Jobs'
+  requirements:
+    _permission: 'access content'
+
+surveymanager.vessel:
+  path: '/surveymanager/vesselform'
+  defaults:
+    _form: '\Drupal\surveymanager\Form\VesselsForm'
+    _title: 'Add Vessel'
+  requirements:
+    _permission: 'access content'
+
+surveymanager.job_survey_form:
+  path: '/surveymanager/jobsurvey'
+  defaults:
+    _form: '\Drupal\surveymanager\Form\JobSurveyForm'
+    _title: 'Add Job Survey'
+  requirements:
+    _permission: 'access content'
+
+surveymanager.job_support_documents_form:
+  path: '/surveymanager/supportdoc'
+  defaults:
+    _form: '\Drupal\surveymanager\Form\JobSupportDocumentsForm'
+    _title: 'Add Job Support Document'
+  requirements:
+    _permission: 'access content'  
+
+surveymanager.user_survey_types_form:
+  path: '/surveymanager/usersurveytype'
+  defaults:
+    _form: '\Drupal\surveymanager\Form\UserSurveyTypesForm'
+    _title: 'Add User Survey Types'
+  requirements:
+    _permission: 'access content'

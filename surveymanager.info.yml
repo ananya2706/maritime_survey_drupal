@@ -1,0 +1,11 @@
+name: Survey Management  
+description:  Floatsys Survey Management  
+package: FISAT
+type: module
+core_version_requirement: ^9.4 || ^10
+dependencies: 
+  - drupal:block
+
+
+configure: surveymanager.admin_settings
+
